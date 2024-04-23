@@ -11,6 +11,7 @@ import com.shopmax.repository.ItemRepository;
 import com.shopmax.repository.MemberRepository;
 import com.shopmax.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
@@ -74,7 +74,7 @@ class OrderServiceTest {
 
         int totalPrice = orderDto.getCount()*item.getPrice();
 
-        assertEquals(totalPrice, order.getTotalPrice());
+        Assertions.assertEquals(totalPrice, order.getTotalPrice());
     }
 
     @Test
@@ -92,8 +92,8 @@ class OrderServiceTest {
                 .orElseThrow(EntityNotFoundException::new);
         orderService.cancelOrder(orderId);
 
-        assertEquals(OrderStatus.CANCEL, order.getOrderStatus());
-        assertEquals(100, item.getStockNumber());
+        Assertions.assertEquals(OrderStatus.CANCEL, order.getOrderStatus());
+        Assertions.assertEquals(100, item.getStockNumber());
     }
 
 }

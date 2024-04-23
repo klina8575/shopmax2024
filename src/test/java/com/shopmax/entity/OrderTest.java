@@ -8,6 +8,7 @@ import com.shopmax.repository.OrderRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @TestPropertySource(locations="classpath:application-test.properties")
@@ -74,7 +73,7 @@ class OrderTest {
 
         Order savedOrder = orderRepository.findById(order.getId())
                 .orElseThrow(EntityNotFoundException::new);
-        assertEquals(3, savedOrder.getOrderItems().size());
+        Assertions.assertEquals(3, savedOrder.getOrderItems().size());
     }
 
     public Order createOrder(){
@@ -106,6 +105,7 @@ class OrderTest {
 
     @Test
     @DisplayName("지연 로딩 테스트")
+    @Transactional
     public void lazyLoadingTest(){
         Order order = this.createOrder();
         Long orderItemId = order.getOrderItems().get(0).getId();
@@ -117,6 +117,7 @@ class OrderTest {
         System.out.println("===========================");
         orderItem.getOrder().getOrderDate();
         System.out.println("===========================");
+        System.out.println(orderItem.getItem());
     }
 
 }

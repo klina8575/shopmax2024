@@ -7,6 +7,7 @@ import com.shopmax.entity.ItemImg;
 import com.shopmax.repository.ItemImgRepository;
 import com.shopmax.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
@@ -69,12 +69,12 @@ class ItemServiceTest {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(EntityNotFoundException::new);
 
-        assertEquals(itemFormDto.getItemNm(), item.getItemNm());
-        assertEquals(itemFormDto.getItemSellStatus(), item.getItemSellStatus());
-        assertEquals(itemFormDto.getItemDetail(), item.getItemDetail());
-        assertEquals(itemFormDto.getPrice(), item.getPrice());
-        assertEquals(itemFormDto.getStockNumber(), item.getStockNumber());
-        assertEquals(multipartFileList.get(0).getOriginalFilename(), itemImgList.get(0).getOriImgName());
+        Assertions.assertEquals(itemFormDto.getItemNm(), item.getItemNm());
+        Assertions.assertEquals(itemFormDto.getItemSellStatus(), item.getItemSellStatus());
+        Assertions.assertEquals(itemFormDto.getItemDetail(), item.getItemDetail());
+        Assertions.assertEquals(itemFormDto.getPrice(), item.getPrice());
+        Assertions.assertEquals(itemFormDto.getStockNumber(), item.getStockNumber());
+        Assertions.assertEquals(multipartFileList.get(0).getOriginalFilename(), itemImgList.get(0).getOriImgName());
     }
 
 }

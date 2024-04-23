@@ -33,10 +33,12 @@
 						 method="post" th:object="${memberFormDto}">
 							<div class="form-group row">
 								<div class="col-md-12">
-									<label th:for="name" class="text-black">이름</label> 
-									<!-- th:field => id, name, value 속성을 자동으로 생성해준다 -->
+									<label th:for="name" class="text-black">이름</label>
+									<!--/* th:field => name, id, value 속성을 생성해줌 */-->
 									<input type="text" class="form-control" 
 									placeholder="이름을 입력해주세요" th:field="*{name}">
+									<!--/* #fields.hasErrors() => 유효성 체크에서 에러가 있는지 확인 */-->
+									<!--/* th:errors => 유효성 체크 에러메세지 출력 */-->
 									<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
 									class="fieldError">Incorrect Data</p>
 								</div>

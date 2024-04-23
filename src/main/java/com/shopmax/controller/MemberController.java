@@ -53,10 +53,10 @@ public class MemberController {
 		
 		try {
 			//MemberFormDto -> Member Entity, 비밀번호 암호화
-			Member member = Member.createMember(memberFormDto, passwordEncoder);
-			memberService.saveMember(member);			
+		 	Member member = Member.createMember(memberFormDto, passwordEncoder);
+			memberService.saveMember(member);
 		} catch (IllegalStateException e) {
-			model.addAttribute("errorMessage", e.getMessage());
+			model.addAttribute("errorMessage",e.getMessage());
 			return "member/memberForm";
 		}
 		

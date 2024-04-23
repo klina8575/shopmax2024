@@ -9,14 +9,13 @@ import com.shopmax.repository.CartItemRepository;
 import com.shopmax.repository.ItemRepository;
 import com.shopmax.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
@@ -65,8 +64,8 @@ class CartServiceTest {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(EntityNotFoundException::new);
 
-        assertEquals(item.getId(), cartItem.getItem().getId());
-        assertEquals(cartItemDto.getCount(), cartItem.getCount());
+        Assertions.assertEquals(item.getId(), cartItem.getItem().getId());
+        Assertions.assertEquals(cartItemDto.getCount(), cartItem.getCount());
     }
 
 }

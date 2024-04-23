@@ -23,6 +23,7 @@
           <div class="main-nav d-none d-lg-block">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
+                <!--/* sec:authorize="hasAnyAuthority('ROLE_ADMIN')" ROLE이 ADMIN인 경우 보여준다 */-->
                 <li class="has-children active" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
                   <a>관리자 메뉴</a>
                   <ul class="dropdown">
@@ -33,7 +34,9 @@
                 
                 <li><a href="/item/shop">전체상품</a></li>
                 <li><a href="/members/qa">문의하기</a></li>
+                <!--/* sec:authorize="isAuthenticated()" 로그인한 경우 보여준다 */-->
                 <li><a href="/orders" sec:authorize="isAuthenticated()">구매이력</a></li>
+                <!--/* sec:authorize="isAnonymous()" 로그인하지 않을때는 보여주고, 로그인하면 X */-->
                 <li><a href="/members/login" sec:authorize="isAnonymous()">로그인</a></li>
                 <li><a href="/members/logout" sec:authorize="isAuthenticated()">로그아웃</a></li>
               </ul>
