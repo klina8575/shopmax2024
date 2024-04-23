@@ -18,7 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-@AutoConfigureMockMvc //mockMvc 테스트를 위해 어노테이션 선언
+@AutoConfigureMockMvc
+@Rollback(false)
 @TestPropertySource(locations="classpath:application-test.properties")
 public class MemberControllerTest {
     @Autowired
