@@ -29,7 +29,8 @@ public class ItemFormDto {
 	private String itemDetail;
 	
 	private ItemSellStatus itemSellStatus;
-	
+
+	//상품 1개당 5개의 이미지를 저장하므로 아래와 같이 리스트로 작성
 	//상품 이미지 정보를 저장
 	private List<ItemImgDto> itemImgDtoList = new ArrayList<>();
 	

@@ -26,8 +26,9 @@ public class ItemImg extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "item_id")
 	private Item item;
-	
-	//이미지에 대한 정보를 업데이트 하는 메소드
+
+	//ItemImg 엔티티에 대한 정보를 업데이트 하는 메소드 ->
+	// 엔티티 값을 바꿔주는 메소드 이므로 엔티티 클래스 안에 작성
 	public void updateItemImg(String oriImgName, String imgName, String imgUrl) {
 		this.oriImgName = oriImgName;
 		this.imgName = imgName;

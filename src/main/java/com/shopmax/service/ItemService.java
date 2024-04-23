@@ -25,28 +25,28 @@ public class ItemService {
 	private final ItemImgRepository itemImgRepository;
 	
 	//item 테이블에 상품등록(insert)
-	public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception {
-		
-		//1.상품등록
+	public Long saveItem(ItemFormDto itemFormDto,
+						 List<MultipartFile> itemImgFileList) throws Exception {
+		//1. 상품 등록(insert)
 		Item item = itemFormDto.createItem(); //dto -> entity
-		itemRepository.save(item); //insert(저장)
-		
-		//2.이미지등록
-		for(int i=0; i<itemImgFileList.size(); i++) {
-			//★fk키를 사용시 부모테이블에 해당하는 entity를 먼저 넣어줘야 한다.
+		itemRepository.save(item); //insert
+
+		//2. 이미지 등록(5개의 이미지를 등록해야 하므로 for문으로 하나씩 저장)
+		for (int i = 0; i < itemImgFileList.size() ; i++) {
 			ItemImg itemImg = new ItemImg();
-			itemImg.setItem(item);
-			
-			//첫번째 이미지 일때 대표상품 이미지 지정
+			itemImg.setItem(item); //★itemImg가 item을 참조하므로 insert 하기전 반드시 item 객체를 넣어준다.
+
+			//첫번째 이미지 일때 대표이미지로 지정
 			if(i == 0) {
 				itemImg.setRepimgYn("Y");
 			} else {
 				itemImg.setRepimgYn("N");
 			}
-			
+
+			//이미지 파일을 하나씩 저장
 			itemImgService.saveItemImg(itemImg, itemImgFileList.get(i));
 		}
-		
+
 		return item.getId(); //등록한 상품 id를 리턴
 	}
 	
