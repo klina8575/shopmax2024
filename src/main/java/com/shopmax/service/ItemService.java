@@ -81,20 +81,24 @@ public class ItemService {
 	
 	public Long updateItem(ItemFormDto itemFormDto, 
 			List<MultipartFile> itemImgFileList) throws Exception {
-		
-		//1. item 엔티티 가져와서 바꾼다.
+
+		// 1. item 엔티티 수정
+		//★update를 진행하기 전 반드시 select를 해온다.
+		// -> 영속성 컨텍스트에 item 엔티티가 없다면 가져오기 위해
 		Item item = itemRepository.findById(itemFormDto.getId())
 				         .orElseThrow(EntityNotFoundException::new);
-		//update쿼리문 실행
-		/* ★★★ 한번 insert를 진행하면 엔티티가 영속성 컨텍스트에 저장이 되므로 
-		그 이후에는 변경감지 기능이 동작하기 때문에 개발자는 update쿼리문을 쓰지 않고
-		엔티티 데이터만 변경해주면 된다. */
+		//update 실행
+		//★ 한번 select 를 진행하면 엔티티가 영속성 컨텍스트에 저장되고
+		// 변경감지 기능으로 인해 트랜잭션 커밋 시점에 엔티티와 DB에 저장된 값이
+		// 다르다면 JPA에서 update해준다.
 		item.updateItem(itemFormDto);
 		
-		//2. item_img를 바꿔준다. -> 5개의 레코드 전부 변경
+		//2. item_img엔티티 수정
 		List<Long> itemImgIds = itemFormDto.getItemImgIds(); //상품 이미지 아이디 리스트 조회
-		
+
+		//5개의 이미지 파일을 업로드 했으므로 아래처럼 for문을 이용해 하나씩 이미지 업데이트를 진행
 		for(int i=0; i<itemImgFileList.size(); i++) {
+			//itemImgService.updateItemImg(itemImg Id, 이미지 파일);
 			itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
 		}
 		

@@ -114,39 +114,44 @@ public class ItemController {
 			model.addAttribute("errorMessage", "상품정보를 가져올때 에러가 발생했습니다.");
 			//에러발생시 비어있는 객체를 넘겨준다.
 			model.addAttribute("itemFormDto", new ItemFormDto());
-			return "item/itemForm";
+			return "item/itemModifyForm";
 		}
 		
 		
 		return "item/itemModifyForm";
 	}
-	
+
 	//상품 수정(update)
 	@PostMapping(value = "/admin/item/{itemId}")
-	public String itemUpdate(@Valid ItemFormDto itemFormDto, Model model,
-			BindingResult bindingResult, 
-			@RequestParam("itemImgFile") List<MultipartFile> itemImgFileList) {
-		
-		if(bindingResult.hasErrors()) {
-			return "item/itemForm";
-		}
-		
-		//첫번째 이미지가 있는지 검사
+	public String itemUpdate(@Valid ItemFormDto itemFormDto, Model model, BindingResult bindingResult,
+							 @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList,
+							 @PathVariable("itemId") Long itemId) {
+
+		if(bindingResult.hasErrors()) return "item/itemForm"; //유효성 체크에서 걸리면
+
+		ItemFormDto getItemFormDto = itemService.getItemDtl(itemId);
+
+		//상품등록 전에 첫번째 이미지가 있는지 없는지 검사(첫번째 이미지는 필수 입력값)
+		//itemFormDto.getId() == null => 이미지 외에 다른 내용만 수정했을때 if문에 걸리는 경우를 방지
 		if(itemImgFileList.get(0).isEmpty() && itemFormDto.getId() == null) {
-			model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수입니다.");
-			return "item/itemForm";
+			model.addAttribute("errorMessage",
+					"첫번째 상품 이미지는 필수 입력입니다.");
+			model.addAttribute("itemFormDto", getItemFormDto);
+			return "item/itemModifyForm";
 		}
-		
-		
+
 		try {
 			itemService.updateItem(itemFormDto, itemImgFileList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("errorMessage", "상품 수정 중 에러가 발생했습니다.");
-			return "item/itemForm";
+			model.addAttribute("errorMessage",
+					"상품 수정중 에러가 발생했습니다.");
+			model.addAttribute("itemFormDto", getItemFormDto);
+			return "item/itemModifyForm";
 		}
-		
+
 		return "redirect:/";
+
 	}
 	
 	

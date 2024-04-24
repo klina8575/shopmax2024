@@ -50,7 +50,8 @@ public class ItemImgService {
 	public void updateItemImg(Long itemImgId, MultipartFile itemImgFile) 
 			throws Exception {
 		if(!itemImgFile.isEmpty()) { //첨부한 이미지 파일이 있으면
-			
+
+			//1. 서버에 있는 이미지를 가지고 와서 수정해준다.
 			//해당 이미지를 가져오고
 			ItemImg savedItemImg = itemImgRepository.findById(itemImgId)
 					                     .orElseThrow(EntityNotFoundException::new);
@@ -61,15 +62,13 @@ public class ItemImgService {
 			}
 			
 			//수정된 이미지 파일 C:/shop/item 에 업로드
-			String oriImgName = itemImgFile.getOriginalFilename();
+			String oriImgName = itemImgFile.getOriginalFilename(); //이미지1.jpg
 			String imgName = fileService.uploadFile(itemImgLocation, oriImgName
 					, itemImgFile.getBytes());
-			String imgUrl = "/images/item/" + imgName;
-			
-			//update쿼리문 실행
-			/* ★★★ 한번 insert를 진행하면 엔티티가 영속성 컨텍스트에 저장이 되므로 
-			그 이후에는 변경감지 기능이 동작하기 때문에 개발자는 update쿼리문을 쓰지 않고
-			엔티티 데이터만 변경해주면 된다. */
+			String imgUrl = "/images/item/" + imgName; // /images/item/EERERERT-ERERERER-CDFDFGD.jpg
+
+			//2. item_img 테이블에 저장된 데이터를 수정해준다.
+			//update (JPA가 자동감지)
 			savedItemImg.updateItemImg(oriImgName, imgName, imgUrl);
 		}
 	}

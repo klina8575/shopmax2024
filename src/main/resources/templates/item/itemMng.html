@@ -71,6 +71,7 @@
 						     ◀ 1 2 3 4 5 ▶
 						     ◀ 6 7
 						-->
+					<!--/* th:with => 변수에 값을 만들때 사용 */-->
 					<nav
 					th:with="start=${(items.number/maxPage)*maxPage + 1}
 			                 ,end=(${(items.totalPages == 0) ? 1 : (start + (maxPage - 1) < items.totalPages ? start + (maxPage - 1) : items.totalPages)})"
@@ -83,7 +84,8 @@
 								
 								<li class="page-item"
 									th:each="page: ${#numbers.sequence(start, end)}"
-									th:classappend="${items.number eq page-1}?'active':''">
+									th:classappend="${items.number eq page-1}?'active':''"> <!-- 현재 페이지 활성화 -->
+									<!--/* th:inline="text" 태그 내부에 출력되는 타임리프 변수 값을 문자로 처리 */-->
 									<a
 									class="page-link" th:inline="text"
 									th:onclick="'javascript:page(' + ${page - 1} +')'">[[${page}]]</a>
@@ -139,14 +141,12 @@
 
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
-		$(document).ready(function() {
-			
-			$("#searchBtn").on("click", function(e){
-				e.preventDefault(); //submit되는걸 방지
-				page(0);
-			});
-			
+
+		$("#searchBtn").on("click", function(e){
+				e.preventDefault(); //submit 방지
+				page(0); //검색 이후엔 검색한 페이지의 시작페이지 부터 보여준다
 		});
+
 		
 		//페이징버튼 눌렀을때 혹은 검색버튼 눌렀을때 검색어와 selectbox를 get방식으로 주소이동시켜준다.
 		function page(page) {

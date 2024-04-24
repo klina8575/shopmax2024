@@ -54,7 +54,7 @@
 							<div class="form-group row">
 								<div class="col-md-12">
 									<label th:for="price" class="text-black">가격</label>
-									<input type="text" class="form-control" th:field="*{price}" placeholder="가격 입력" onkeyup="inputNumberFormat(this)">			
+									<input maxlength="9" type="text" class="form-control" th:field="*{price}" placeholder="가격 입력" onkeyup="inputNumberFormat(this)">
 									<p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="fieldError">Incorrect Data</p>
 								</div>
 							</div>
