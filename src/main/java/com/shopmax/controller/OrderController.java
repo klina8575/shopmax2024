@@ -34,12 +34,15 @@ public class OrderController {
 		
 		if(bindingResult.hasErrors()) {
 				StringBuilder sb = new StringBuilder();
+
+			    //유효성 체크후 에러결과를 가져온다.
 				List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
 				for (FieldError fieldError : fieldErrors) {
 					sb.append(fieldError.getDefaultMessage()); //에러메세지를 합친다.
 			}
-			
+
+			      //new ResponseEntity<첫번째 매개변수의 타입>(response 데이터, response status 코드);
 			return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
 		}
 		
@@ -49,6 +52,7 @@ public class OrderController {
 		try {
 			orderId = orderService.order(orderDto, email); //주문하기
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
