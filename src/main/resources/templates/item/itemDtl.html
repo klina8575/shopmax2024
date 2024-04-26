@@ -46,7 +46,7 @@
 					
 					<p>
 						<input type="hidden" th:value="${item.price}" id="price" name="price">
-						<strong class="text-primary h4" th:text="|${#numbers.formatInteger(item.price, 0, 'COMMA')}원|"></strong>
+						<strong class="text-primary h4" th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')} + '원'"></strong>
 					</p>
 					
 					<div class="mb-5">
@@ -110,23 +110,44 @@
 
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
-		$(document).ready(function() {
-			//처음 상세페이지 화면에 들어올때 총 상품금액이 보여야 하므로
-			calculateTotalPrice(); 
-			
-			//수량 -, + 버튼을 누를때마다 총가격을 구한다
-			$(".count_btn").click(function() {
-				calculateTotalPrice();
-			})
-		});
-		
+
+		//처음 상세페이지 화면에 들어올때 총 상품금액이 보여야 하므로
+		calculateTotalPrice();
+
 		function calculateTotalPrice() {
 			var count = $("#count").val(); //수량
 			var price = $("#price").val(); //가격
 			var totalPrice = (price * count).toLocaleString('ko-KR'); //천단위 콤마
 			$("#totalPrice").html(totalPrice + '원'); //총가격 출력
 		}
-		
+
+		$('.js-btn-minus').on('click', function(e){
+			e.preventDefault();
+			if ( $(this).closest('.input-group').find('.form-control').val() > 1  ) {
+				$(this).closest('.input-group').find('.form-control').val(parseInt($(this).closest('.input-group').find('.form-control').val()) - 1);
+			} else {
+				$(this).closest('.input-group').find('.form-control').val(parseInt(1));
+			}
+
+			calculateTotalPrice();
+		});
+
+		$('.js-btn-plus').on('click', function(e){
+			e.preventDefault();
+			const stock = [[${item.stockNumber}]]; //재고
+			var count = $("#count").val(); //수량
+
+			if(count >= stock) {
+				alert("더이상 재고가 존재하지 않습니다!");
+				return;
+			}
+
+			$(this).closest('.input-group').find('.form-control').val(parseInt($(this).closest('.input-group').find('.form-control').val()) + 1);
+
+			calculateTotalPrice();
+		});
+
+
 		function order() {
 			var token = $("meta[name='_csrf']").attr("content");
 			var header = $("meta[name='_csrf_header']").attr("content");

@@ -103,8 +103,8 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
 	@Override
 	public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
-		/* select item.id, item.itemNm, item.itemDetail, item_img.imgUrl, item.price 
-		 *    from item, item_img 
+		/* select item.id, item.item_nm, item.item_detail, item_img.img_url, item.price
+		 *    from item, item_img
 		 *    where item.item_id = item_img.item_id
 		 *    and item_img.repimg_yn = 'Y'
 		 *    and item.item_nm like '%검색어%'
