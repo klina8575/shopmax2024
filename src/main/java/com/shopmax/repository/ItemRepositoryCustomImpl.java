@@ -119,14 +119,14 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 		//2.dto객체의 생성자에 @QueryProjection를 반드시 사용해야 한다.
 		List<MainItemDto> content = queryFactory
 				.select(
-					new QMainItemDto(
+					new QMainItemDto( //생성자 이므로 생성자 순서대로 작성
 						item.id,
 						item.itemNm,
 						item.itemDetail,
 						itemImg.imgUrl,
 						item.price)	
 				)
-				.from(itemImg)
+				.from(itemImg) //join문 작성시 순서 주의: from(자식테이블) / join(자식테이블, 부모 테이블)
 				.join(itemImg.item, item)
 				.where(itemImg.repimgYn.eq("Y"))
 				.where(itemNmLike(itemSearchDto.getSearchQuery()))

@@ -149,22 +149,21 @@
 
 
 		function order() {
+			//★헤더에 있는 토큰 값을 가지고 온다(반드시 같이 전송해야 함)
 			var token = $("meta[name='_csrf']").attr("content");
 			var header = $("meta[name='_csrf_header']").attr("content");
 			
-			var url = "/order";
-			
-			//controller(서버)에 전달할 데이터
+			//서버에 전달할 데이터
 			var paramData = {
 					itemId : $("#itemId").val(), //item의 id
 					count: $("#count").val() //수량
 			}
 			
-			//★전달하기 전에 데이터를 반드시 JSON -> 문자열로 만들어야 한다.
+			//JSON -> 문자열 변경(ajax는 전달하는 데이터를 문자열로 만들어야한다)
 			var param = JSON.stringify(paramData);
 			
 			$.ajax({
-				url : url, //request URL
+				url : "/order", //request URL
 				type : "POST", //전송방식
 				contentType : "application/json",
 				data : param, //서버에 전송할 데이터

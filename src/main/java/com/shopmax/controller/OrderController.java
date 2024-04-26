@@ -24,18 +24,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderController {
 	private final OrderService orderService;
-	
+
+	//OrderDto는 ajax에서 전달해준 데이터를 받아온다,
+	// http통신에서 body에 담겨져서 오므로 반드시 @RequestBody 어노테이션 추가
 	@PostMapping(value = "/order")
 	public @ResponseBody ResponseEntity order(@RequestBody @Valid OrderDto orderDto,
 			BindingResult bindingResult, Principal principal) {
 		//Principal: 로그인한 사용자의 정보를 가져올 수 있다.
 		
 		if(bindingResult.hasErrors()) {
-			StringBuilder sb = new StringBuilder();
-			List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-			
-			for (FieldError fieldError : fieldErrors) {
-				sb.append(fieldError.getDefaultMessage()); //에러메세지를 합친다.
+				StringBuilder sb = new StringBuilder();
+				List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+
+				for (FieldError fieldError : fieldErrors) {
+					sb.append(fieldError.getDefaultMessage()); //에러메세지를 합친다.
 			}
 			
 			return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
