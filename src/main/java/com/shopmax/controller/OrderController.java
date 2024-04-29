@@ -98,15 +98,15 @@ public class OrderController {
 	@DeleteMapping("/order/{orderId}/delete")
 	public @ResponseBody ResponseEntity deleteOrder(@PathVariable("orderId") Long orderId
 			, Principal principal) {
-		//1. 본인인증
+		//1. 로그인한 사용자와 주문한 사용자가 같은지 확인
 		if(!orderService.validateOrder(orderId, principal.getName())) {
-			return new ResponseEntity<String>("주문 삭제 권한이 없습니다.", 
+			return new ResponseEntity<String>("주문 삭제 권한이 없습니다.",
 					HttpStatus.FORBIDDEN);
 		}
-		
+
 		//2.주문삭제
 		orderService.deleteOrder(orderId);
-		
+
 		return new ResponseEntity<Long>(orderId, HttpStatus.OK);
 	}
 
