@@ -31,11 +31,11 @@ public class OrderController {
 	public @ResponseBody ResponseEntity order(@RequestBody @Valid OrderDto orderDto,
 			BindingResult bindingResult, Principal principal) {
 		//Principal: 로그인한 사용자의 정보를 가져올 수 있다.
-		
-		if(bindingResult.hasErrors()) {
+
+			if(bindingResult.hasErrors()) {
 				StringBuilder sb = new StringBuilder();
 
-			    //유효성 체크후 에러결과를 가져온다.
+				//유효성 체크후 에러결과를 가져온다.
 				List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
 				for (FieldError fieldError : fieldErrors) {
@@ -80,7 +80,7 @@ public class OrderController {
 	}
 	
 	//주문 취소
-	@PostMapping("/order/{orderId}/cancel")
+	@PatchMapping("/order/{orderId}/cancel")
 	public @ResponseBody ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId,
 			Principal principal) {
 		//1. 주문취소 권한이 있는지 확인(본인확인)
