@@ -39,6 +39,11 @@
                 <!--/* sec:authorize="isAnonymous()" 로그인하지 않을때는 보여주고, 로그인하면 X */-->
                 <li><a href="/members/login" sec:authorize="isAnonymous()">로그인</a></li>
                 <li><a href="/members/logout" sec:authorize="isAuthenticated()">로그아웃</a></li>
+                <li sec:authorize="isAuthenticated()">
+<!--/*                  <span sec:authentication="principal.username"></span>*/-->
+                  <span sec:authentication="principal.name"></span>님
+<!--/*                 <span sec:authentication="principal.address"></span>*/-->
+                </li>
               </ul>
             </nav>
           </div>
